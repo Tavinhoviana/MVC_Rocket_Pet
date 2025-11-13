@@ -1,7 +1,9 @@
 from sqlalchemy.orm.exc import NoResultFound
 from src.models.sqlite.entitites.people import PeopleTable
 from src.models.sqlite.entitites.pets import PetsTable
-class PeopleRepository:
+from src.models.sqlite.interfaces.people_repository import PeopleRepositoryInterface
+
+class PeopleRepository(PeopleRepositoryInterface):
     def __init__(self, db_connection) -> None:
         self.__db_connection = db_connection
 
@@ -19,7 +21,7 @@ class PeopleRepository:
             except Exception as exception:
                 database.session.rollback()
                 raise exception
-            
+
     def get_person(self, person_id: int) -> PeopleTable:
         with self.__db_connection as database:
             try:
